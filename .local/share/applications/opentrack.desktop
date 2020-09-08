@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=2.3.11
+Type=Application
+Name=opentrack
+GenericName=Head tracking software
+Comment=Head tracking software
+Categories=Utility;
+Keywords=opentrack; ;composite manager;window effects;transparency;opacity;
+#Exec=v4l2-ctl -c white_balance_automatic=0,auto_exposure=1 && v4l2-ctl -c exposure=1 && /home/htpc/Downloads/opentrack/build/install/bin/opentrack
+#Exec=/home/htpc/Downloads/opentrack/build/install/bin/opentrack
+Exec=/home/htpc/.local/share/applications/ot.sh
+
