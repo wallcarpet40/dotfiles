@@ -1,3 +1,4 @@
+
 --[[
 
      Awesome WM configuration template
@@ -115,7 +116,7 @@ local browser2          = "brave"
 local browser3          = "chromium -no-default-browser-check"
 local editor            = os.getenv("EDITOR") or "nano"
 local editorgui         = "atom"
-local filemanager       = "pcmanfm"
+local filemanager       = "nemo"
 local mailclient        = "evolution"
 local mediaplayer       = "spotify"
 local scrlocker         = "slimlock"
@@ -453,6 +454,13 @@ globalkeys = my_table.join(
 
     awful.key({ modkey, modkey1   }, "5", function() awful.util.spawn( "steam" ) end,
         {description = "Launch Steam", group = "alt+ctrl"}),
+
+    --awful.key({ altkey, modkey1   }, "4", function() awful.spawn.with_shell( "bash ~/.local/share/applications/kodistart.sh" ) end,
+      --  {description = "Launch Kodi", group = "alt+ctrl"}),
+
+    awful.key({ altkey, modkey1   }, "4", function() awful.spawn.single_instance( "kodi" ) end,
+        {description = "Launch Kodi", group = "alt+ctrl"}),
+
 
 
     -- Hotkeys Awesome
@@ -898,6 +906,7 @@ root.keys(globalkeys)
 
 -- {{{ Rules
 -- Rules to apply to new clients (through the "manage" signal).
+
 awful.rules.rules = {
     -- All clients will match this rule.
     { rule = { },
@@ -961,6 +970,10 @@ awful.rules.rules = {
 
     { rule = { class = "Pcmanfm" },
       properties = { screen = 1, tag = awful.util.tagnames[3],switchtotag = true  } },
+
+      { rule = { class = "Nemo" },
+        properties = { screen = 1, tag = awful.util.tagnames[3],switchtotag = true  } },
+
 
     -- Kodi opens to screen 1, tag 4
     { rule = { class = "Kodi" },
