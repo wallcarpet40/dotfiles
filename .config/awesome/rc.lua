@@ -458,10 +458,20 @@ globalkeys = my_table.join(
     --awful.key({ altkey, modkey1   }, "4", function() awful.spawn.with_shell( "bash ~/.local/share/applications/kodistart.sh" ) end,
       --  {description = "Launch Kodi", group = "alt+ctrl"}),
 
-    awful.key({ altkey, modkey1   }, "4", function() awful.spawn.single_instance( "kodi" ) end,
+
+      -- The below implementation does not work. I have to use deprecated function awful.client.run_or_raise to make launching Kodi work.
+
+    --awful.key({ altkey, modkey1   }, "4", function() awful.spawn.raise_or_spawn( "kodi", {}, function (c) return c.class == "Kodi" end ) end,
+      --  {description = "Launch Kodi", group = "alt+ctrl"}),
+
+
+    awful.key({ altkey, modkey1   }, "4",
+    function ()
+          local matcher = function (c)
+          return awful.rules.match(c, {class = "Kodi"})
+    end
+    awful.client.run_or_raise("kodi", matcher) end,
         {description = "Launch Kodi", group = "alt+ctrl"}),
-
-
 
     -- Hotkeys Awesome
 
@@ -907,7 +917,11 @@ root.keys(globalkeys)
 -- {{{ Rules
 -- Rules to apply to new clients (through the "manage" signal).
 
+
+
 awful.rules.rules = {
+
+
     -- All clients will match this rule.
     { rule = { },
       properties = { border_width = beautiful.border_width,
@@ -921,6 +935,7 @@ awful.rules.rules = {
                      size_hints_honor = false
      }
     },
+
 
     -- Titlebars
     { rule_any = { type = { "dialog", "normal" } },
@@ -998,18 +1013,6 @@ awful.rules.rules = {
     { rule = { class = "Subl3" },
       properties = { screen = 1, tag = awful.util.tagnames[6], switchtotag = true  } },
 
-    -- Set applications to always map on the tag 3 on screen 1.
-    --{ rule = { class = "Inkscape" },
-        --properties = { screen = 1, tag = awful.util.tagnames[3], switchtotag = true  } },
-
-    -- Set applications to always map on the tag 4 on screen 1.
-    --{ rule = { class = "Gimp" },
-        --properties = { screen = 1, tag = awful.util.tagnames[4], switchtotag = true  } },
-
-    -- Set applications to always map on the tag 5 on screen 1.
-    --{ rule = { class = "Meld" },
-        --properties = { screen = 1, tag = awful.util.tagnames[5] , switchtotag = true  } },
-
 
     -- Set applications to be maximized at startup.
     -- find class or role via xprop command
@@ -1049,8 +1052,6 @@ awful.rules.rules = {
 
     { rule = { class = "Gnome-calculator" },
           properties = { maximized = false, floating = true } },
-
-
 
 
     -- Floating clients.
@@ -1099,6 +1100,10 @@ awful.rules.rules = {
       }, properties = { floating = true }},
 
 }
+
+
+
+
 -- }}}
 
 -- {{{ Signals
@@ -1161,7 +1166,47 @@ client.connect_signal("request::titlebars", function(c)
         },
         layout = wibox.layout.align.horizontal
     }
+
+    local blacklisted_snid = setmetatable({}, {__mode = "v" })
+
+    --- Make startup notification work for some clients like XTerm. This is ugly
+    -- but works often enough to be useful.
+    local function fix_startup_id(c)
+        -- Prevent "broken" sub processes created by <code>c</code> to inherit its SNID
+        if c.startup_id then
+            blacklisted_snid[c.startup_id] = blacklisted_snid[c.startup_id] or c
+            return
+        end
+
+        if not c.pid then return end
+
+        -- Read the process environment variables
+        local f = io.open("/proc/"..c.pid.."/environ", "rb")
+
+        -- It will only work on Linux, that's already 99% of the userbase.
+        if not f then return end
+
+        local value = _VERSION <= "Lua 5.1" and "([^\z]*)\0" or "([^\0]*)\0"
+        local snid = f:read("*all"):match("STARTUP_ID=" .. value)
+        f:close()
+
+        -- If there is already a client using this SNID, it means it's either a
+        -- subprocess or another window for the same process. While it makes sense
+        -- in some case to apply the same rules, it is not always the case, so
+        -- better doing nothing rather than something stupid.
+        if blacklisted_snid[snid] then return end
+
+        c.startup_id = snid
+
+        blacklisted_snid[snid] = c
+    end
+
+    ruled.client.add_rule_source(
+        "snid", fix_startup_id, {}, {"awful.spawn", "ruled.client"}
+    )
+
 end)
+
 
 -- Enable sloppy focus, so that focus follows mouse.
 client.connect_signal("mouse::enter", function(c)
