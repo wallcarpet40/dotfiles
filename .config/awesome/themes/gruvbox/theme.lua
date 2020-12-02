@@ -221,7 +221,7 @@ local cpu = lain.widget.cpu({
 local tempicon = wibox.widget.imagebox(theme.widget_temp)
 
 --CPU temp (lm_sensors, Tdie)
-local tempwidget = awful.widget.watch({awful.util.shell, '-c', 'sensors | grep Tdie'}, 2,
+local tempwidget = awful.widget.watch({awful.util.shell, '-c', 'sensors | grep Tdie'}, 8,
 function(widget, stdout)
     local temps = ""
     for line in stdout:gmatch("[^\r\n]+") do
@@ -231,7 +231,7 @@ function(widget, stdout)
 end)
 
 --GPU edge temperature (lm_sensors)
-local gpu_edge_temp_widget = awful.widget.watch({awful.util.shell, '-c', 'sensors | grep edge'}, 2,
+local gpu_edge_temp_widget = awful.widget.watch({awful.util.shell, '-c', 'sensors | grep edge'}, 8,
 function(widget, stdout)
     local temps = ""
     for line in stdout:gmatch("[^\r\n]+") do
@@ -241,7 +241,7 @@ function(widget, stdout)
 end)
 
 --GPU junction temperature (lm_sensors)
-local gpu_junction_temp_widget = awful.widget.watch({awful.util.shell, '-c', 'sensors | grep junction'}, 2,
+local gpu_junction_temp_widget = awful.widget.watch({awful.util.shell, '-c', 'sensors | grep junction'}, 8,
 function(widget, stdout)
     local temps = ""
     for line in stdout:gmatch("[^\r\n]+") do
@@ -251,7 +251,7 @@ function(widget, stdout)
 end)
 
 --GPU mem temperature (lm_sensors)
-local gpu_mem_temp_widget = awful.widget.watch({awful.util.shell, '-c', 'sensors | grep mem'}, 2,
+local gpu_mem_temp_widget = awful.widget.watch({awful.util.shell, '-c', 'sensors | grep mem'}, 8,
 function(widget, stdout)
     local temps = ""
     for line in stdout:gmatch("[^\r\n]+") do
@@ -261,7 +261,7 @@ function(widget, stdout)
 end)
 
 -- GPU fan speed (lm_sensors)
-local gpu_fan_speed_widget = awful.widget.watch({awful.util.shell, '-c', 'sensors | grep fan1'}, 2,
+local gpu_fan_speed_widget = awful.widget.watch({awful.util.shell, '-c', 'sensors | grep fan1'}, 8,
 function(widget, stdout)
     local rpm = ""
     for line in stdout:gmatch("[^\r\n]+") do
@@ -289,7 +289,7 @@ theme.weather = lain.widget.weather({
 })
 
 -- / fs
-local fsicon = wibox.widget.imagebox(theme.widget_hdd)
+-- local fsicon = wibox.widget.imagebox(theme.widget_hdd)
 --[[ commented because it needs Gio/Glib >= 2.54
 theme.fs = lain.widget.fs({
     notification_preset = { fg = theme.fg_normal, bg = theme.bg_normal, font = "Noto Sans Mono Medium 10" },
@@ -350,12 +350,12 @@ theme.volume = lain.widget.alsa({
 })
 
 -- Net
-local neticon = wibox.widget.imagebox(theme.widget_net)
-local net = lain.widget.net({
-    settings = function()
-        widget:set_markup(markup.fontfg(theme.font, "#FEFEFE", " " .. net_now.received .. " ↓↑ " .. net_now.sent .. " "))
-    end
-})
+--local neticon = wibox.widget.imagebox(theme.widget_net)
+--local net = lain.widget.net({
+--    settings = function()
+--        widget:set_markup(markup.fontfg(theme.font, "#FEFEFE", " " .. net_now.received .. " ↓↑ " .. net_now.sent .. " "))
+--    end
+--})
 
 -- Separators
 local arrow = separators.arrow_left

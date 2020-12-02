@@ -33,3 +33,4 @@ run "numlockx on"
 #run "ckb-next -b"
 #run "discord"
 #run "telegram-desktop"
+

@@ -460,18 +460,20 @@ globalkeys = my_table.join(
 
 
       -- The below implementation does not work. I have to use deprecated function awful.client.run_or_raise to make launching Kodi work.
-
-    --awful.key({ altkey, modkey1   }, "4", function() awful.spawn.raise_or_spawn( "kodi", {}, function (c) return c.class == "Kodi" end ) end,
+  --awful.key({ altkey, modkey1   }, "4", function() awful.spawn.raise_or_spawn( "kodi", {}, function (c) return c.class == "Kodi" end ) end,
       --  {description = "Launch Kodi", group = "alt+ctrl"}),
 
 
-    awful.key({ altkey, modkey1   }, "4",
+
+-- Deprecated function that still works for launching a program only once and raise it if it's already running.
+     awful.key({ altkey, modkey1   }, "4",
     function ()
           local matcher = function (c)
           return awful.rules.match(c, {class = "Kodi"})
     end
     awful.client.run_or_raise("kodi", matcher) end,
         {description = "Launch Kodi", group = "alt+ctrl"}),
+
 
     -- Hotkeys Awesome
 
@@ -968,8 +970,13 @@ awful.rules.rules = {
     -- terminal opens to screen 1, tag 2
     { rule = { class = "URxvt" },
       properties = { screen = 1, tag = awful.util.tagnames[2],switchtotag = true  } },
+
     { rule = { class = "Alacritty" },
       properties = { screen = 1, tag = awful.util.tagnames[2],switchtotag = true  } },
+
+    { rule = { class = "corectrl" },
+            properties = { screen = 1, tag = awful.util.tagnames[2], switchtotag = false, hidden = true } },
+
 
 
 
@@ -992,7 +999,7 @@ awful.rules.rules = {
 
     -- Kodi opens to screen 1, tag 4
     { rule = { class = "Kodi" },
-      properties = { screen = 1, tag = awful.util.tagnames[4],switchtotag = true  } },
+      properties = { screen = 1, tag = awful.util.tagnames[4],switchtotag = true,  } },
 
 
     -- Steam opens to screen 1, tag 5
@@ -1053,6 +1060,8 @@ awful.rules.rules = {
     { rule = { class = "Gnome-calculator" },
           properties = { maximized = false, floating = true } },
 
+    -- Minimized clientkeys
+
 
     -- Floating clients.
     { rule_any = {
@@ -1078,6 +1087,7 @@ awful.rules.rules = {
           "opentrack",
           "Peek",
           "Psensor",
+          --"radeon-profile",
           "Skype",
           "System-config-printer.py",
           "Sxiv",
