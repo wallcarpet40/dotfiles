@@ -236,6 +236,10 @@ alias cs="bleachbit --clean --preset"
 alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
 alias mpv="mpv --hwdec=auto"
 
+alias cpuclk="watch -n 1 'cat /proc/cpuinfo | grep -i Mhz'"
+
+
+
 # # ex = EXtractor for all kinds of archives
 # # usage: ex <file>
 ex ()
