@@ -228,16 +228,17 @@ alias ot="v4l2-ctl -c white_balance_automatic=0,auto_exposure=1 && v4l2-ctl -c e
 
 alias 1080p="xrandr --output HDMI-A-0 --mode 1920x1080 --pos 0x0 --rotate normal --rate 60 --dpi 96"
 alias 1440p="sed -i -E s/^Xft.dpi:144/Xft.dpi:96/ .Xresources && xrdb ~/.Xresources && xrandr --output HDMI-A-0 --mode 2560x1440 --pos 0x0 --rotate normal --rate 120 --dpi 96 && echo 'awesome.restart()' | awesome-client"
-alias 2160p="sed -i -E s/^Xft.dpi:96/Xft.dpi:144/ .Xresources && xrdb ~/.Xresources && xrandr --output HDMI-A-0 --mode 3840x2160 --pos 0x0 --rotate normal --rate 60 --dpi 144 && echo 'awesome.restart()' | awesome-client"
+alias 2160p60="sed -i -E s/^Xft.dpi:96/Xft.dpi:144/ .Xresources && xrdb ~/.Xresources && xrandr --output HDMI-A-0 --mode 3840x2160 --pos 0x0 --rotate normal --rate 60 --dpi 144 && echo 'awesome.restart()' | awesome-client"
+alias 2160p50="sed -i -E s/^Xft.dpi:96/Xft.dpi:144/ .Xresources && xrdb ~/.Xresources && xrandr --output HDMI-A-0 --mode 3840x2160 --pos 0x0 --rotate normal --rate 50 --dpi 144 && echo 'awesome.restart()' | awesome-client"
 
 alias cs="bleachbit --clean --preset"
 
 #Git alias for bare repositories
 alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
-alias mpv="mpv --hwdec=auto"
+alias mpv="mpv --hwdec=auto --fs"
 
 alias cpuclk="watch -n 1 'cat /proc/cpuinfo | grep -i Mhz'"
-
+alias fixaudio="pactl set-sink-mute 14 toggle"
 
 
 # # ex = EXtractor for all kinds of archives
