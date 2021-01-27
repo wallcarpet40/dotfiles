@@ -238,7 +238,9 @@ alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
 alias mpv="mpv --hwdec=auto --fs"
 
 alias cpuclk="watch -n 1 'cat /proc/cpuinfo | grep -i Mhz'"
-alias fixaudio="pactl set-sink-mute 14 toggle"
+alias fixaudio="pactl set-sink-mute 0 toggle"
+alias listaudio="pacmd list-sources | grep -e 'index:' -e device.string -e 'name:'"
+
 
 
 # # ex = EXtractor for all kinds of archives
