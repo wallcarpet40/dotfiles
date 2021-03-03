@@ -1021,7 +1021,7 @@ awful.rules.rules = {
     { rule = { class = "zwiftapp.exe" },
       properties = { screen = 1, tag = awful.util.tagnames[5],switchtotag = true  } },
     { rule = { class = "zwiftapp.exe" },
-      properties = { fullscreen = true } },
+      properties = { maximized = true } },
 
     { rule = { class = "zwiftlauncher.exe" },
       properties = { screen = 1, tag = awful.util.tagnames[5],switchtotag = true  } },
