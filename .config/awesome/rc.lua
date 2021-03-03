@@ -455,6 +455,10 @@ globalkeys = my_table.join(
     awful.key({ modkey, modkey1   }, "5", function() awful.util.spawn( "steam" ) end,
         {description = "Launch Steam", group = "alt+ctrl"}),
 
+    awful.key({ modkey, modkey1   }, "z", function() awful.util.spawn( "/home/htpc/.local/share/applications/z.sh" ) end,
+        {description = "Launch Zwift", group = "alt+ctrl"}),
+
+
     --awful.key({ altkey, modkey1   }, "4", function() awful.spawn.with_shell( "bash ~/.local/share/applications/kodistart.sh" ) end,
       --  {description = "Launch Kodi", group = "alt+ctrl"}),
 
@@ -967,6 +971,8 @@ awful.rules.rules = {
 
 
 
+
+
     -- terminal opens to screen 1, tag 2
     { rule = { class = "URxvt" },
       properties = { screen = 1, tag = awful.util.tagnames[2],switchtotag = true  } },
@@ -974,8 +980,12 @@ awful.rules.rules = {
     { rule = { class = "Alacritty" },
       properties = { screen = 1, tag = awful.util.tagnames[2],switchtotag = true  } },
 
-    { rule = { class = "corectrl" },
-            properties = { screen = 1, tag = awful.util.tagnames[2], switchtotag = false, hidden = true } },
+    { rule = { class = "VirtualBox Manager" },
+      properties = { screen = 1, tag = awful.util.tagnames[2],switchtotag = true  } },
+
+
+    --{ rule = { class = "corectrl" },
+      --      properties = { screen = 1, tag = awful.util.tagnames[2], switchtotag = false, hidden = true } },
 
 
 
@@ -1008,6 +1018,19 @@ awful.rules.rules = {
     { rule = { class = "Lutris" },
       properties = { screen = 1, tag = awful.util.tagnames[5],switchtotag = true  } },
 
+    { rule = { class = "zwiftapp.exe" },
+      properties = { screen = 1, tag = awful.util.tagnames[5],switchtotag = true  } },
+    { rule = { class = "zwiftapp.exe" },
+      properties = { fullscreen = true } },
+
+    { rule = { class = "zwiftlauncher.exe" },
+      properties = { screen = 1, tag = awful.util.tagnames[5],switchtotag = true  } },
+    { rule = { class = "zwiftlauncher.exe" },
+      properties = { minimized = true } },
+
+
+
+
 
 
     -- Text editors open to screen 1, tag 6
@@ -1020,6 +1043,8 @@ awful.rules.rules = {
     { rule = { class = "Subl3" },
       properties = { screen = 1, tag = awful.util.tagnames[6], switchtotag = true  } },
 
+    { rule = { class = "VSCodium" },
+      properties = { screen = 1, tag = awful.util.tagnames[6], switchtotag = true  } },
 
     -- Set applications to be maximized at startup.
     -- find class or role via xprop command
@@ -1084,6 +1109,7 @@ awful.rules.rules = {
           "Kruler",
           "MessageWin",  -- kalarm.
           "Oblogout",
+          "Onboard",
           "opentrack",
           "Peek",
           "Psensor",
